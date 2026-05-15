@@ -8,16 +8,16 @@ const OurWork = () => {
 
   const workData = [
     {
-      title: 'Mobile app markerting',
+      title: 'Mobile app marketing',
       description: 'We turn bold ideas into powerful digital solutions that connect,engage...',
       Image: assets.work_mobile_app
     },
     {
       title: 'Dashboard management',
-      description: 'We halp you execute your plan and deliver results.',
+      description: 'We help you execute your plan and deliver results.',
       Image: assets.work_dashboard_management
     }, {
-      title: 'Filness app promotion',
+      title: 'Fitness app promotion',
       description: 'We turn bold ideas into powerful digital solutions that connect,engage...',
       Image: assets.work_fitness_app
     },

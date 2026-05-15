@@ -7,7 +7,7 @@ const Services = () => {
     const servicesData = [
         {
             title: 'Advertising',
-            description:'we turn bold ideas into powerful degital solutions that connect,engage...',
+            description:'we turn bold ideas into powerful digital solutions that connect,engage...',
             icon: assets.ads_icon,
         },
         {
@@ -17,7 +17,7 @@ const Services = () => {
         },
         {
             title: 'Content Writing',
-            description:'we turn bold ideas into powerful degital solutions that connect,engage...',
+            description:'we turn bold ideas into powerful digital solutions that connect,engage...',
             icon: assets.content_icon,
         },
         {

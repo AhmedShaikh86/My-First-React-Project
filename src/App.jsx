@@ -4,6 +4,9 @@ import Hero from './components/Hero'
 import Trustedby from './components/Trustedby'
 import Services from './components/Services'
 import OurWork from './components/OurWork'
+import StatsCounter from './components/StatsCounter'
+import ScrollToTop from './components/ScrollToTop'
+import Testimonials from './components/Testimonials'
 import Teams from './components/Teams'
 import ContactUs from './components/ContactUs'
 import { Toaster } from 'react-hot-toast'
@@ -57,11 +60,16 @@ const App = () => {
       <Navbar theme={theme} setTheme={setTheme} />
       <Hero />
       <Trustedby />
+      <StatsCounter />
       <Services />
       <OurWork />
+      <Testimonials />
       <Teams />
       <ContactUs />
       <Footer theme={theme} />
+
+      {/* Scroll To Top Button */}
+      <ScrollToTop />
 
       {/* Custom Cursor Ring */}
       <div ref={outlineRef} className='fixed top-0 left-0 h-10 w-10 rounded-full border border-primary pointer-events-none z-[9999]' style={{ transition: 'transform 0.01s ease-out' }}></div>
