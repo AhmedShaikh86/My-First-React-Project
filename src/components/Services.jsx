@@ -1,6 +1,6 @@
 import React from 'react'
 import assets from '../assets/assets'
-import Title from './title'
+import Title from './Title'
 import ServiceCard from './serviceCard'
 import { motion, stagger } from 'motion/react'
 const Services = () => {
