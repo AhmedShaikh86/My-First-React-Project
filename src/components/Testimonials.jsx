@@ -57,27 +57,16 @@ const StarRating = ({ rating }) => (
 )
 
 const TestimonialCard = ({ testimonial }) => (
-  <div className='flex-shrink-0 w-[300px] sm:w-[340px] bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl p-6 flex flex-col gap-4 shadow-sm hover:shadow-md hover:border-primary dark:hover:border-primary transition-all duration-300'>
-    {/* Quote icon */}
+  <div className='w-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl p-6 flex flex-col gap-4 shadow-sm hover:shadow-md hover:border-primary dark:hover:border-primary transition-all duration-300'>
     <svg className='w-8 h-8 text-primary opacity-30' fill='currentColor' viewBox='0 0 24 24'>
       <path d='M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z' />
     </svg>
-
-    {/* Review text */}
     <p className='text-sm text-gray-600 dark:text-gray-300 leading-relaxed flex-1'>
       {testimonial.review}
     </p>
-
-    {/* Stars */}
     <StarRating rating={testimonial.rating} />
-
-    {/* Author */}
     <div className='flex items-center gap-3 pt-2 border-t border-gray-100 dark:border-gray-700'>
-      <img
-        src={testimonial.image}
-        alt={testimonial.name}
-        className='w-10 h-10 rounded-full object-cover ring-2 ring-primary/30'
-      />
+      <img src={testimonial.image} alt={testimonial.name} className='w-10 h-10 rounded-full object-cover ring-2 ring-primary/30' />
       <div>
         <p className='text-sm font-semibold text-gray-800 dark:text-white'>{testimonial.name}</p>
         <p className='text-xs text-gray-500 dark:text-gray-400'>{testimonial.title}</p>
@@ -88,7 +77,6 @@ const TestimonialCard = ({ testimonial }) => (
 
 const Testimonials = () => {
   const [activeIndex, setActiveIndex] = useState(0)
-  const trackRef = useRef(null)
   const autoPlayRef = useRef(null)
   const total = testimonialsData.length
 
@@ -97,7 +85,6 @@ const Testimonials = () => {
     setActiveIndex(next)
   }
 
-  // Auto scroll every 3 seconds
   useEffect(() => {
     autoPlayRef.current = setInterval(() => {
       setActiveIndex(prev => (prev + 1) % total)
@@ -105,7 +92,6 @@ const Testimonials = () => {
     return () => clearInterval(autoPlayRef.current)
   }, [])
 
-  // Pause on hover
   const pauseAutoPlay = () => clearInterval(autoPlayRef.current)
   const resumeAutoPlay = () => {
     autoPlayRef.current = setInterval(() => {
@@ -113,8 +99,10 @@ const Testimonials = () => {
     }, 3000)
   }
 
-  // Visible cards: active + next 2
-  const visibleIndices = [0, 1, 2].map(i => (activeIndex + i) % total)
+  // Mobile: 1 card, tablet: 2, desktop: 3
+  const getVisibleCards = () => {
+    return [0, 1, 2].map(i => (activeIndex + i) % total)
+  }
 
   return (
     <motion.div
@@ -122,7 +110,7 @@ const Testimonials = () => {
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
       viewport={{ once: true }}
-      className='flex flex-col items-center gap-10 px-4 sm:px-12 lg:px-24 xl:px-40 pt-20 text-gray-700 dark:text-white overflow-hidden'
+      className='flex flex-col items-center gap-10 px-4 sm:px-12 lg:px-24 xl:px-40 pt-20 text-gray-700 dark:text-white w-full overflow-hidden'
     >
       {/* Heading */}
       <motion.div
@@ -130,7 +118,7 @@ const Testimonials = () => {
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         viewport={{ once: true }}
-        className='text-center'
+        className='text-center w-full'
       >
         <h2 className='text-3xl sm:text-4xl font-semibold mb-3'>
           What Our <span className='bg-gradient-to-r from-[#5044E5] to-[#4d8cea] bg-clip-text text-transparent'>Clients Say</span>
@@ -140,30 +128,71 @@ const Testimonials = () => {
         </p>
       </motion.div>
 
-      {/* Cards */}
+      {/* Cards - responsive grid */}
       <div
-        className='flex gap-5 w-full max-w-5xl'
+        className='w-full max-w-5xl'
         onMouseEnter={pauseAutoPlay}
         onMouseLeave={resumeAutoPlay}
-        ref={trackRef}
       >
-        <AnimatePresence mode='popLayout'>
-          {visibleIndices.map((dataIndex, pos) => (
+        {/* Mobile: single card centered */}
+        <div className='block sm:hidden w-full max-w-sm mx-auto'>
+          <AnimatePresence mode='wait'>
             <motion.div
-              key={dataIndex}
-              initial={{ opacity: 0, x: 100, scale: 0.95 }}
-              animate={{ opacity: pos === 2 ? 0.5 : 1, x: 0, scale: pos === 2 ? 0.97 : 1 }}
-              exit={{ opacity: 0, x: -100, scale: 0.95 }}
-              transition={{ duration: 0.4 }}
-              className={`${pos === 2 ? 'hidden lg:flex' : pos === 1 ? 'hidden sm:flex' : 'flex'}`}
+              key={activeIndex}
+              initial={{ opacity: 0, x: 60 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -60 }}
+              transition={{ duration: 0.35 }}
             >
-              <TestimonialCard testimonial={testimonialsData[dataIndex]} />
+              <TestimonialCard testimonial={testimonialsData[activeIndex]} />
             </motion.div>
-          ))}
-        </AnimatePresence>
+          </AnimatePresence>
+        </div>
+
+        {/* Tablet: 2 cards */}
+        <div className='hidden sm:flex lg:hidden gap-5 w-full'>
+          <AnimatePresence mode='popLayout'>
+            {[0, 1].map(offset => {
+              const idx = (activeIndex + offset) % total
+              return (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, x: 80 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -80 }}
+                  transition={{ duration: 0.4 }}
+                  className='flex-1'
+                >
+                  <TestimonialCard testimonial={testimonialsData[idx]} />
+                </motion.div>
+              )
+            })}
+          </AnimatePresence>
+        </div>
+
+        {/* Desktop: 3 cards */}
+        <div className='hidden lg:flex gap-5 w-full'>
+          <AnimatePresence mode='popLayout'>
+            {[0, 1, 2].map(offset => {
+              const idx = (activeIndex + offset) % total
+              return (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, x: 100 }}
+                  animate={{ opacity: offset === 2 ? 0.6 : 1, x: 0 }}
+                  exit={{ opacity: 0, x: -100 }}
+                  transition={{ duration: 0.4 }}
+                  className='flex-1'
+                >
+                  <TestimonialCard testimonial={testimonialsData[idx]} />
+                </motion.div>
+              )
+            })}
+          </AnimatePresence>
+        </div>
       </div>
 
-      {/* Dots navigation */}
+      {/* Dots */}
       <div className='flex gap-2'>
         {testimonialsData.map((_, i) => (
           <button
@@ -174,7 +203,7 @@ const Testimonials = () => {
         ))}
       </div>
 
-      {/* Prev / Next arrows */}
+      {/* Arrows */}
       <div className='flex gap-4 -mt-4'>
         <button
           onClick={() => goTo(activeIndex - 1)}

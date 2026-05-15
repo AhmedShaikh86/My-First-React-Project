@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
-import Navbar from './components/Navbar'
+import Navbar from './components/navbar'
 import Hero from './components/Hero'
 import Trustedby from './components/Trustedby'
 import Services from './components/Services'
@@ -55,7 +55,7 @@ const App = () => {
   }, [])
 
   return (
-    <div className={`${theme === 'dark' ? 'dark' : ''} dark:bg-black relative`}>
+    <div className={`${theme === 'dark' ? 'dark' : ''} dark:bg-black relative overflow-x-hidden`}>
       <Toaster />
       <Navbar theme={theme} setTheme={setTheme} />
       <Hero />
