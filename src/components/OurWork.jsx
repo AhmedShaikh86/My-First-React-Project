@@ -40,10 +40,10 @@ const OurWork = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.2 }}
               viewport={{ once: true }}
-              key={index} className='hover:scale-102 duration-500 transition-all cursor-pointer text-left'>
+              key={index} className='hover:scale-102 duration-500 transition-all cursor-pointer text-center'>
               <img src={work.Image} className='w-full rounded-xl' alt="" />
               <h3 className='mt-3 mb-2 text-lg font-semibold'>{work.title}</h3>
-              <p className='text-sm opacity-60 w-5/6'>{work.description}</p>
+              <p className='text-sm opacity-60 w-full mx-auto'>{work.description}</p>
             </motion.div>
           ))
         }
